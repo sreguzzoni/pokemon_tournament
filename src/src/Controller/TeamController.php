@@ -116,7 +116,13 @@ class TeamController extends AbstractController
             $entityManager->flush();
 
             //make something curious, get some unbelieveable data
-            $arrData = ['output' => 'here the result which will appear in div'];
+            $arrData = [
+                'name' => $pokemon->getName(),
+                'exp' => $pokemon->getExp(),
+                'img' => $pokemon->getImg(),
+                'abilities' => $pokemon->getAbilities(),
+                'types' => $pokemon->getTypes()
+            ];
             return new JsonResponse($arrData);
         }
 
