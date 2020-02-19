@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Team;
+use App\Entity\Pokemon;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -100,7 +101,20 @@ class TeamController extends AbstractController
      */
     public function addPokemon(Request $request)
     {
-        if($request->request->get('team')){
+        $name = $request->request->get('team');
+        if($name){
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $teamRepository = $entityManager->getRepository(Team::class);
+            $number = 1;
+            $team = $teamRepository->findByName($name, $this->getUser());
+            $pokemon = new Pokemon();
+            $pokemon->setTeam($team);
+            $pokemon->setNumber($number);
+
+            $entityManager->persist($pokemon);
+            $entityManager->flush();
+
             //make something curious, get some unbelieveable data
             $arrData = ['output' => 'here the result which will appear in div'];
             return new JsonResponse($arrData);
