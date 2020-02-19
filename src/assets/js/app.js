@@ -1,4 +1,4 @@
-require('../css/app.css');
+require('../css/app.less');
 
 // require jQuery normally
 const $ = require('jquery');
