@@ -22,19 +22,18 @@ class TeamRepository extends ServiceEntityRepository
     // /**
     //  * @return Team[] Returns an array of Team objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findByUser($userId)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+            ->andWhere('t.user_id = :val')
             ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.datetime', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Team
