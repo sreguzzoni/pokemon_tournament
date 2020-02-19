@@ -7,6 +7,7 @@ use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -93,4 +94,20 @@ class TeamController extends AbstractController
 
         return $this->redirectToRoute('team_index');
     }
+
+    /**
+     * @Route("/addPokemon", name="team_addPokemon", methods={"POST"})
+     */
+    public function addPokemon(Request $request)
+    {
+        if($request->request->get('team')){
+            //make something curious, get some unbelieveable data
+            $arrData = ['output' => 'here the result which will appear in div'];
+            return new JsonResponse($arrData);
+        }
+
+        return $this->render('app/main/index.html.twig');
+    }
+
+
 }

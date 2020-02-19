@@ -1,3 +1,6 @@
+add_new_pokemon:
+  path: /team/addPokemon
+  controller: App\Controller\TeamController::addPokemon
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
