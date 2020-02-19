@@ -47,8 +47,7 @@ class TeamRepository extends ServiceEntityRepository
             ->setParameter('val', $userId)
             ->setParameter('val2', $name)
             ->getQuery()
-            ->getResult()
-            [0]
+            ->getOneOrNullResult()
         ;
     }
 
