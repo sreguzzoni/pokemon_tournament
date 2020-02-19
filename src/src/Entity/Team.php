@@ -34,6 +34,11 @@ class Team
      */
     private $pokemon;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datetime;
+
     public function __construct()
     {
         $this->pokemon = new ArrayCollection();
@@ -95,6 +100,18 @@ class Team
                 $pokemon->setTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDatetime(): ?\DateTimeInterface
+    {
+        return $this->datetime;
+    }
+
+    public function setDatetime(\DateTimeInterface $datetime): self
+    {
+        $this->datetime = $datetime;
 
         return $this;
     }
