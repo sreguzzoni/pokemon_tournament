@@ -26,8 +26,8 @@ class TeamRepository extends ServiceEntityRepository
     public function findByUser($userId)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.user_id = :val')
-            ->setParameter('val', $value)
+            ->andWhere('t.user = :val')
+            ->setParameter('val', $userId)
             ->orderBy('t.datetime', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
