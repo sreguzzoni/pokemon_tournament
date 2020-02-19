@@ -9,6 +9,7 @@
 ###< symfony/framework-bundle ###
 
 ###> yarn ###
+/public/build
 /lib
 /lib-legacy
 /node_modules
