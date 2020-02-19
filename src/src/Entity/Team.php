@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +28,16 @@ class Team
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pokemon", mappedBy="team", orphanRemoval=true)
+     */
+    private $pokemon;
+
+    public function __construct()
+    {
+        $this->pokemon = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,6 +64,37 @@ class Team
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pokemon[]
+     */
+    public function getPokemon(): Collection
+    {
+        return $this->pokemon;
+    }
+
+    public function addPokemon(Pokemon $pokemon): self
+    {
+        if (!$this->pokemon->contains($pokemon)) {
+            $this->pokemon[] = $pokemon;
+            $pokemon->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removePokemon(Pokemon $pokemon): self
+    {
+        if ($this->pokemon->contains($pokemon)) {
+            $this->pokemon->removeElement($pokemon);
+            // set the owning side to null (unless already changed)
+            if ($pokemon->getTeam() === $this) {
+                $pokemon->setTeam(null);
+            }
+        }
 
         return $this;
     }
