@@ -1,4 +1,4 @@
-// require('../css/team.less');
+require('../css/team.less');
 
 const addPokemon = (path, team) => {
 	$.ajax({
