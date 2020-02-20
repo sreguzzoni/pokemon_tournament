@@ -25,8 +25,12 @@ class TeamController extends AbstractController
      */
     public function index(TeamRepository $teamRepository): Response
     {
+        $teams = $teamRepository->findByUser($this->getUser());
+        foreach ($teams as $team) {
+            $team->getPokemon();
+        }
         return $this->render('team/index.html.twig', [
-            'teams' => $teamRepository->findByUser($this->getUser()),
+            'teams' => $teams,
         ]);
     }
 

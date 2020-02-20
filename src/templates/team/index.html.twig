@@ -3,33 +3,58 @@
 {% block title %}Team index{% endblock %}
 
 {% block body %}
-    <h1>Team index</h1>
+    <h1>Your Teams</h1>
 
-    <table class="table">
-        <thead>
+    {% for team in teams %}
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td>
+                        {{ team.name }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Pokemon</th>
+                    <td>
+                        {% for single_pokemon in team.pokemon %}
+                            {{ single_pokemon }}
+                        {% else %}
+                            This team is empty.
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Actions</th>
+                    <td>
+                        {{ include('team/_delete_form.html.twig') }}
+                    </td>
+                    <td>
+                        <a href="{{ path('team_edit', {'id': team.id}) }}">edit</a>
+                    </td>
+                    <td>
+                        <button class="ajax" data-path='{{ (path('add_new_pokemon')) }}' data-team='{{ team }}'>
+                            Add a Pokemon!
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <table class="table">
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for team in teams %}
-            <tr>
-                <td>{{ team.id }}</td>
-                <td>{{ team.name }}</td>
                 <td>
-                    <a href="{{ path('team_show', {'id': team.id}) }}">show</a>
-                    <a href="{{ path('team_edit', {'id': team.id}) }}">edit</a>
+                    No teams found.
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        </table>
+    {% endfor %}
 
-    <a href="{{ path('team_new') }}">Create new</a>
+    <a href="{{ path('team_new') }}">Create new team!</a>
+{% endblock %}
+
+{% block javascripts_child %}
+    <script type="text/javascript" src="{{ asset('build/team.js') }}"></script>
 {% endblock %}
