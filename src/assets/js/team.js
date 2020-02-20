@@ -108,7 +108,7 @@ const removePokemon = (path, pokemon) => {
 * Binds all the .pokemon-add-btn buttons with AJAX related service
 */
 const addPokemonBind = () => {
-	let buttons = $('.ajax');
+	let buttons = $('.pokemon-add-btn');
 	$(buttons).off('click').on('click', function() {
         let path = $(this).data('path');
         let team = $(this).data('team');
