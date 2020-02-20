@@ -17,6 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TeamController extends AbstractController
 {
+
+    const FIRST_POKEMON = 1;
+    const LAST_POKEMON = 807;
     /**
      * @Route("/", name="team_index", methods={"GET"})
      */
@@ -106,7 +109,7 @@ class TeamController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             
             $teamRepository = $entityManager->getRepository(Team::class);
-            $number = 1;
+            $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
             $team = $teamRepository->findByName($name, $this->getUser());
             $pokemon = new Pokemon();
             $pokemon->setTeam($team);
