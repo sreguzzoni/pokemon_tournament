@@ -5,7 +5,6 @@ const addPokemonInList = (team, pokemon) => {
     let emptyData = $(pokemonList).find('.pokemon-list-empty');
     let newPokemon = $('.pokemon-list-element.tpl').clone();
     let newPokemonRemoveBtn = newPokemon.find('.pokemon-remove-btn');
-    console.log(newPokemon);
     newPokemon.attr('id', 'pokemon-' + pokemon['id']);
     newPokemon.attr('pokemon-team', team);
     newPokemon.find('.name').text(pokemon['name']);
@@ -38,12 +37,13 @@ const addPokemon = (path, team) => {
         async: true,
         success: function (data)
         {
-            console.log('addPokemon function:' + data);
+            // console.log('addPokemon function:' + data);
             addPokemonInList(team, data);
         },
         error: function (data)
         {
-        	console.log('addPokemon function:' + data);
+        	// console.log('addPokemon function:' + data);
+            alert("Can't add a pokemon");
         }
     });
 }
@@ -70,12 +70,13 @@ const removePokemon = (path, pokemon) => {
         async: true,
         success: function (data)
         {
-            console.log('removePokemon function:' + data)
+            // console.log('removePokemon function:' + data)
             removePokemonInList(data);
         },
         error: function (data)
         {
-            console.log('removePokemon function:' + data);
+            // console.log('removePokemon function:' + data);
+            alert("Can't add a pokemon");
         }
     });
 }

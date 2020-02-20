@@ -131,9 +131,7 @@ class TeamController extends AbstractController
             }
         }
         // temp management of exception and error
-        header('HTTP/1.1 500 Internal Server Error');
-        header('Content-Type: application/json; charset=UTF-8');
-        die(json_encode(array('message' => 'addPokemon: Cannot add a Pokemon', 'code' => 1001)));
+        die(new JsonResponse(['message' => 'addPokemon: Cannot add a Pokemon', 'code' => 1001], 500));
     }
 
     /**
@@ -155,9 +153,7 @@ class TeamController extends AbstractController
             return new JsonResponse(['id' => $pokemonId]);
         }
         // temp management of exception and error
-        header('HTTP/1.1 500 Internal Server Error');
-        header('Content-Type: application/json; charset=UTF-8');
-        die(json_encode(array('message' => 'removePokemon: Cannot remove the Pokemon', 'code' => 1002)));
+        die(new JsonResponse(['message' => 'removePokemon: Cannot remove a Pokemon', 'code' => 1002], 500));
     }
 
 
