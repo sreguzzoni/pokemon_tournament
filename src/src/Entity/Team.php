@@ -78,6 +78,9 @@ class Team
      */
     public function getPokemon(): Collection
     {
+        foreach ($this->pokemon as $single_pokemon) {
+            $single_pokemon->setPokemonInfo();
+        }
         return $this->pokemon;
     }
 
@@ -114,5 +117,21 @@ class Team
         $this->datetime = $datetime;
 
         return $this;
+    }
+
+    public function countPokemon(): int
+    {
+        return sizeof($this->pokemon);
+    }
+
+    /**
+     * Generates the magic method
+     * 
+     */
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->name;
+        // to show the id of the Category in the select
+        // return $this->id;
     }
 }

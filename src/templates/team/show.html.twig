@@ -15,6 +15,15 @@
                 <th>Name</th>
                 <td>{{ team.name }}</td>
             </tr>
+
+            <tr>
+                <th>Pokemon</th>
+                <td>
+                    {% for single_pokemon in pokemon %}
+                        {{ single_pokemon }}
+                    {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
 

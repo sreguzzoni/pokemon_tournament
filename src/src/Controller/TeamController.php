@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Team;
+use App\Entity\Pokemon;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
+use App\Repository\PokemonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -15,13 +18,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TeamController extends AbstractController
 {
+
+    const FIRST_POKEMON = 1;
+    const LAST_POKEMON = 807;
+    const MAX_POKEMON = 6;
+
     /**
      * @Route("/", name="team_index", methods={"GET"})
      */
     public function index(TeamRepository $teamRepository): Response
     {
+        $teams = $teamRepository->findByUser($this->getUser());
+        foreach ($teams as $team) {
+            $team->getPokemon();
+        }
         return $this->render('team/index.html.twig', [
-            'teams' => $teamRepository->findByUser($this->getUser()),
+            'teams' => $teams,
         ]);
     }
 
@@ -57,6 +69,7 @@ class TeamController extends AbstractController
     {
         return $this->render('team/show.html.twig', [
             'team' => $team,
+            'pokemon' => $team->getPokemon()
         ]);
     }
 
@@ -93,4 +106,55 @@ class TeamController extends AbstractController
 
         return $this->redirectToRoute('team_index');
     }
+
+    /**
+     * @Route("/addPokemon", name="team_addPokemon", methods={"POST"})
+     */
+    public function addPokemon(Request $request)
+    {
+        $teamId = $request->request->get('teamId');
+        if($teamId){
+            $entityManager = $this->getDoctrine()->getManager();
+            $teamRepository = $entityManager->getRepository(Team::class);
+            $team = $teamRepository->find($teamId);
+            if($team->countPokemon() < 6) {
+                $pokemon = new Pokemon();
+                $pokemon->setTeam($team);
+                $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
+                $pokemon->setNumber($number);
+
+                $entityManager->persist($pokemon);
+                $entityManager->flush();
+
+                //make something curious, get some unbelieveable data
+                return new JsonResponse(json_decode($pokemon->__toString()));
+            }
+        }
+        // temp management of exception and error
+        die(new JsonResponse(['message' => 'addPokemon: Cannot add a Pokemon', 'code' => 1001], 500));
+    }
+
+    /**
+    * @Route("/removePokemon", name="team_removePokemon", methods={"POST"})
+    */
+    public function removePokemon(Request $request)
+    {
+        $pokemonId = $request->request->get('pokemonId');
+        if($pokemonId){
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $pokemonRepository = $entityManager->getRepository(Pokemon::class);
+            $pokemon = $pokemonRepository->find($pokemonId);
+            
+            $entityManager->remove($pokemon);
+            $entityManager->flush();
+
+            //make something curious, get some unbelieveable data
+            return new JsonResponse(['id' => $pokemonId]);
+        }
+        // temp management of exception and error
+        die(new JsonResponse(['message' => 'removePokemon: Cannot remove a Pokemon', 'code' => 1002], 500));
+    }
+
+
 }

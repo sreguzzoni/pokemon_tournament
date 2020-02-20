@@ -35,6 +35,22 @@ class TeamRepository extends ServiceEntityRepository
         ;
     }
 
+    // /**
+    //  * @return Team Returns a single Team object
+    //  */
+    
+    public function findByName($name, $userId)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :val')
+            ->andWhere('t.name = :val2')
+            ->setParameter('val', $userId)
+            ->setParameter('val2', $name)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Team
     {

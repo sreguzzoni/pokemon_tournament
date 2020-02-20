@@ -1,3 +1,10 @@
+add_new_pokemon:
+  path: /team/addPokemon
+  controller: App\Controller\TeamController::addPokemon
+
+remove_pokemon:
+  path: /team/removePokemon
+  controller: App\Controller\TeamController::removePokemon
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
