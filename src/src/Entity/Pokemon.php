@@ -28,6 +28,9 @@ class Pokemon
      */
     private $number;
 
+    /**
+     * Attributes picked from API and cached into the single objects.
+     */
     private $pokemon_obj;
     private $pokemon_name;
     private $pokemon_exp;
@@ -59,6 +62,7 @@ class Pokemon
     public function setNumber(int $number): self
     {
         $this->number = $number;
+        // retrieve pokemon informations when setting the Pokemon number
         $this->setPokemonInfo();
         return $this;
     }
@@ -66,9 +70,11 @@ class Pokemon
     public function setPokemonInfo() 
     {
         $api = new PokeApi;
+        // pick only once information from API
         $this->pokemon_obj = json_decode(
             $api->pokemon($this->getNumber())
         );
+        // parse the retrieved informations
         $this->pokemon_name = $this->pokemon_obj->name;
         $this->pokemon_exp = $this->pokemon_obj->base_experience;
         $this->pokemon_img = $this->pokemon_obj->sprites->front_default;

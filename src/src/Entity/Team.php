@@ -90,7 +90,6 @@ class Team
             $this->pokemon[] = $pokemon;
             $pokemon->setTeam($this);
         }
-
         return $this;
     }
 
@@ -103,7 +102,6 @@ class Team
                 $pokemon->setTeam(null);
             }
         }
-
         return $this;
     }
 
@@ -124,14 +122,8 @@ class Team
         return sizeof($this->pokemon);
     }
 
-    /**
-     * Generates the magic method
-     * 
-     */
-    public function __toString(){
-        // to show the name of the Category in the select
+    public function __toString()
+    {
         return $this->name;
-        // to show the id of the Category in the select
-        // return $this->id;
     }
 }
