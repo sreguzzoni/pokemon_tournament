@@ -6,7 +6,7 @@ const addPokemon = (path, team) => {
         type: 'POST',
         dataType: 'json',
         data: {
-            team: team
+            teamId: team
         },
         async: true,
         success: function (data)
@@ -21,10 +21,10 @@ const addPokemon = (path, team) => {
 }
 
 const addPokemonBind = () => {
-	let button = $('button.ajax');
-	let path = $(button).data('path');
-	let team = $(button).data('team');
-	$(document).on('click', button, function() {
+	let buttons = $('.ajax');
+	$(buttons).on('click', function() {
+        let path = $(this).data('path');
+        let team = $(this).data('team');
 		addPokemon(path, team);
 	});
 }

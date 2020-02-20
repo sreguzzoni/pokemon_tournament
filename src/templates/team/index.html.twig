@@ -32,12 +32,10 @@
                         {{ include('team/_delete_form.html.twig') }}
                     </td>
                     <td>
-                        <a href="{{ path('team_edit', {'id': team.id}) }}">edit</a>
+                        {{ include('team/_edit_btn.html.twig') }}
                     </td>
                     <td>
-                        <button class="ajax" data-path='{{ (path('add_new_pokemon')) }}' data-team='{{ team }}'>
-                            Add a Pokemon!
-                        </button>
+                        {{ include('team/_pokemon_add_btn.html.twig') }}
                     </td>
                 </tr>
             </tbody>

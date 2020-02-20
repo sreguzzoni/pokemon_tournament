@@ -109,22 +109,22 @@ class TeamController extends AbstractController
      */
     public function addPokemon(Request $request)
     {
-        $name = $request->request->get('team');
-        if($name){
+        $teamId = $request->request->get('teamId');
+        if($teamId){
             $entityManager = $this->getDoctrine()->getManager();
             
             $teamRepository = $entityManager->getRepository(Team::class);
-            $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
-            $team = $teamRepository->findByName($name, $this->getUser());
+            $team = $teamRepository->find($teamId);
             $pokemon = new Pokemon();
             $pokemon->setTeam($team);
+            $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
             $pokemon->setNumber($number);
 
             $entityManager->persist($pokemon);
             $entityManager->flush();
 
             //make something curious, get some unbelieveable data
-            return new JsonResponse($pokemon->toString());
+            return new JsonResponse(json_decode($pokemon->__toString()));
         }
 
         return $this->render('app/main/index.html.twig');
