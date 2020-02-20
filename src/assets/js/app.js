@@ -6,6 +6,5 @@ const $ = require('jquery');
 // create global $ and jQuery variables
 global.$ = global.jQuery = $;
 
+// require bootstrap
 require('bootstrap');
-
-console.log('Webpack Encore Done');

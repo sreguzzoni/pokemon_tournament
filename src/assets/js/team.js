@@ -1,12 +1,20 @@
 require('../css/team.less');
 
+/**
+* Add a Pokemon to the selected team-id list.
+* @param team The selected team id
+* @param pokemon The inserted pokemon JSON object
+*/
 const addPokemonInList = (team, pokemon) => {
-    let pokemonList = $('#team-' + team + ' .pokemon-list');
-    let emptyData = $(pokemonList).find('.pokemon-list-empty');
-    let newPokemon = $('.pokemon-list-element.tpl').clone();
-    let newPokemonRemoveBtn = newPokemon.find('.pokemon-remove-btn');
+    // set useful vars avoid multiple repicking
+    let pokemonList = $('#team-' + team + ' .pokemon-list'), // the list of pokemon DOM objects in the team
+        emptyData = $(pokemonList).find('.pokemon-list-empty'), // the empty data DOM object
+        newPokemon = $('.pokemon-list-element.tpl').clone(), // clone the tpl and create a new DOM object
+        newPokemonRemoveBtn = newPokemon.find('.pokemon-remove-btn'); // the new remove button
+    // set useful attribute
     newPokemon.attr('id', 'pokemon-' + pokemon['id']);
     newPokemon.attr('pokemon-team', team);
+    // set innert text
     newPokemon.find('.name').text(pokemon['name']);
     newPokemon.find('.exp').text(pokemon['exp']);
     newPokemon.find('.img').text(pokemon['img']);
@@ -16,7 +24,7 @@ const addPokemonInList = (team, pokemon) => {
     newPokemonRemoveBtn.attr('data-pokemon', pokemon['id']);
     // remove tpl class
     newPokemon.removeClass('tpl');
-    // delete old td if it's first pokemon of the team
+    // hide empty element if this is the first Pokemon
     if(!emptyData.hasClass('hidden')) {
         emptyData.addClass('hidden');
     }
@@ -26,6 +34,11 @@ const addPokemonInList = (team, pokemon) => {
     removePokemonBind();
 }
 
+/**
+* Add a Pokemon to the selected team calling an AJAX service. Show a message if an error occured.
+* @param path The path to AJAX service
+* @param team The selected team id
+*/
 const addPokemon = (path, team) => {
 	$.ajax({
         url: path,
@@ -43,22 +56,32 @@ const addPokemon = (path, team) => {
         error: function (data)
         {
         	// console.log('addPokemon function:' + data);
-            alert("Can't add a pokemon");
+            alert('Can\'t add a pokemon');
         }
     });
 }
 
+/**
+* Remove the selected pokemon-id Pokemon from the list.
+* @param pokemon The inserted Pokemon JSON object containing only the id
+*/
 const removePokemonInList = (pokemon) => {
-    let pokemonListElement = $('#pokemon-' + pokemon['id']);
-    let team = pokemonListElement.attr('pokemon-team');
-    let pokemonList = $('#team-' + team + ' .pokemon-list');
-    let emptyData = $(pokemonList).find('.pokemon-list-empty');
+    let pokemonListElement = $('#pokemon-' + pokemon['id']), // the pokemon list element that has to be removed
+        team = pokemonListElement.attr('pokemon-team'), // the team id
+        pokemonList = $('#team-' + team + ' .pokemon-list'), // the list of pokemon DOM objects in the team
+        emptyData = $(pokemonList).find('.pokemon-list-empty'); // the empty data DOM object
     pokemonListElement.parent().remove();
+    // show empty element if there aren't Pokemon anymore
     if(pokemonList.children('td').length <= 1) {
         emptyData.removeClass('hidden');
     }
 }
 
+/**
+* Remove the selected Pokemon calling an AJAX service. Show a message if an error occured.
+* @param path The path to AJAX service
+* @param pokemon The selected Pokemon id
+*/
 const removePokemon = (path, pokemon) => {
     $.ajax({
         url: path,
@@ -76,11 +99,14 @@ const removePokemon = (path, pokemon) => {
         error: function (data)
         {
             // console.log('removePokemon function:' + data);
-            alert("Can't add a pokemon");
+            alert('Can\'t add a pokemon');
         }
     });
 }
 
+/**
+* Binds all the .pokemon-add-btn buttons with AJAX related service
+*/
 const addPokemonBind = () => {
 	let buttons = $('.ajax');
 	$(buttons).off('click').on('click', function() {
@@ -90,6 +116,9 @@ const addPokemonBind = () => {
 	});
 }
 
+/**
+* Binds all the .pokemon-remove-btn buttons with AJAX related service
+*/
 const removePokemonBind = () => {
     let buttons = $('.pokemon-remove-btn');
     $(buttons).off('click').on('click', function() {
@@ -99,7 +128,9 @@ const removePokemonBind = () => {
     });
 }
 
+/**************** ENTRY POINT *******************/
 $(document).ready(function() {
+    // bind buttons
 	addPokemonBind();
     removePokemonBind();
 });
