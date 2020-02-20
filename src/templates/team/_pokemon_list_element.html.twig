@@ -1,0 +1,21 @@
+<div class='pokemon-list-element' id='pokemon-{{ single_pokemon.id }}' pokemon-team='{{ team.id }}'>
+	<div class='name'>
+		{{ single_pokemon.name }}
+	</div>
+	<div class='exp'>
+		{{ single_pokemon.exp }}
+	</div>
+	<div class='img'>
+		{{ single_pokemon.img }}
+	</div>
+	<div class='abilities'>
+	
+	</div>
+	<div class='types'>
+	
+	</div>
+
+	<button class="pokemon-remove-btn" data-path='{{ (path('remove_pokemon')) }}' data-pokemon='{{ single_pokemon.id }}'>
+		Remove
+	</button>
+</div>

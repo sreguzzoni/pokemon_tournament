@@ -1,5 +1,32 @@
 require('../css/team.less');
 
+const addPokemonInList = (team, pokemon) => {
+    let pokemonList = $('#team-' + team + ' .pokemon-list');
+    let emptyData = $(pokemonList).find('.pokemon-list-empty');
+    let newPokemon = $('.pokemon-list-element.tpl').clone();
+    let newPokemonRemoveBtn = newPokemon.find('.pokemon-remove-btn');
+    console.log(newPokemon);
+    newPokemon.attr('id', 'pokemon-' + pokemon['id']);
+    newPokemon.attr('pokemon-team', team);
+    newPokemon.find('.name').text(pokemon['name']);
+    newPokemon.find('.exp').text(pokemon['exp']);
+    newPokemon.find('.img').text(pokemon['img']);
+    newPokemon.find('.abilities').text(pokemon['abilities']);
+    newPokemon.find('.types').text(pokemon['types']);
+    // work on delete button
+    newPokemonRemoveBtn.attr('data-pokemon', pokemon['id']);
+    // remove tpl class
+    newPokemon.removeClass('tpl');
+    // delete old td if it's first pokemon of the team
+    if(!emptyData.hasClass('hidden')) {
+        emptyData.addClass('hidden');
+    }
+    // append the new pokemon to the list
+    $('<td></td>').html(newPokemon).appendTo(pokemonList);
+    // bind the function on remove btn
+    removePokemonBind();
+}
+
 const addPokemon = (path, team) => {
 	$.ajax({
         url: path,
@@ -11,13 +38,25 @@ const addPokemon = (path, team) => {
         async: true,
         success: function (data)
         {
-            console.log('addPokemon function:' + data)
+            console.log('addPokemon function:' + data);
+            addPokemonInList(team, data);
         },
         error: function (data)
         {
         	console.log('addPokemon function:' + data);
         }
     });
+}
+
+const removePokemonInList = (pokemon) => {
+    let pokemonListElement = $('#pokemon-' + pokemon['id']);
+    let team = pokemonListElement.attr('pokemon-team');
+    let pokemonList = $('#team-' + team + ' .pokemon-list');
+    let emptyData = $(pokemonList).find('.pokemon-list-empty');
+    pokemonListElement.parent().remove();
+    if(pokemonList.children('td').length <= 1) {
+        emptyData.removeClass('hidden');
+    }
 }
 
 const removePokemon = (path, pokemon) => {
@@ -32,6 +71,7 @@ const removePokemon = (path, pokemon) => {
         success: function (data)
         {
             console.log('removePokemon function:' + data)
+            removePokemonInList(data);
         },
         error: function (data)
         {
@@ -42,7 +82,7 @@ const removePokemon = (path, pokemon) => {
 
 const addPokemonBind = () => {
 	let buttons = $('.ajax');
-	$(buttons).on('click', function() {
+	$(buttons).off('click').on('click', function() {
         let path = $(this).data('path');
         let team = $(this).data('team');
 		addPokemon(path, team);
@@ -51,7 +91,7 @@ const addPokemonBind = () => {
 
 const removePokemonBind = () => {
     let buttons = $('.pokemon-remove-btn');
-    $(buttons).on('click', function() {
+    $(buttons).off('click').on('click', function() {
         let path = $(this).data('path');
         let pokemon = $(this).data('pokemon');
         removePokemon(path, pokemon);

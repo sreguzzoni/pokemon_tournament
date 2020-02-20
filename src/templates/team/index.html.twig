@@ -5,8 +5,10 @@
 {% block body %}
     <h1>Your Teams</h1>
 
+    {{ include('team/_pokemon_list_element_tpl.html.twig') }}
+
     {% for team in teams %}
-        <table class="table">
+        <table class="table" id='team-{{ team.id }}'>
             <tbody>
                 <tr>
                     <th>Name</th>
@@ -15,16 +17,22 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr class='pokemon-list'>
                     <th>Pokemon</th>
-                    <td>
-                        {% for single_pokemon in team.pokemon %}
-                            {{ single_pokemon }}
-                            {{ include('team/_pokemon_delete_btn.html.twig')}}
-                        {% else %}
+                
+                    {% for single_pokemon in team.pokemon %}
+                        <td>
+                            {{ include('team/_pokemon_list_element.html.twig') }}
+                        </td>
+                        <td class='pokemon-list-empty hidden'>
                             This team is empty.
-                        {% endfor %}
-                    </td>
+                        </td>
+                    {% else %}
+                        <td class='pokemon-list-empty'>
+                            This team is empty.
+                        </td>
+                    {% endfor %}
+                    
                 </tr>
 
                 <tr>
