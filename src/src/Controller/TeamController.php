@@ -19,6 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeamController extends AbstractController
 {
 
+    /*
+     * Useful const
+     */
     const FIRST_POKEMON = 1;
     const LAST_POKEMON = 807;
     const MAX_POKEMON = 6;
@@ -29,9 +32,11 @@ class TeamController extends AbstractController
     public function index(TeamRepository $teamRepository): Response
     {
         $teams = $teamRepository->findByUser($this->getUser());
+        // pick pokemon info from API
         foreach ($teams as $team) {
             $team->getPokemon();
         }
+        // return the list
         return $this->render('team/index.html.twig', [
             'teams' => $teams,
         ]);
@@ -112,21 +117,24 @@ class TeamController extends AbstractController
      */
     public function addPokemon(Request $request)
     {
+        // pick team id from the AJAX request
         $teamId = $request->request->get('teamId');
         if($teamId){
+            // pick repository to find related team object
             $entityManager = $this->getDoctrine()->getManager();
             $teamRepository = $entityManager->getRepository(Team::class);
             $team = $teamRepository->find($teamId);
             if($team->countPokemon() < 6) {
+                // if there aren't 6 pokemons
                 $pokemon = new Pokemon();
                 $pokemon->setTeam($team);
+                // select random pokemon number
                 $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
                 $pokemon->setNumber($number);
-
+                // save pokemon
                 $entityManager->persist($pokemon);
                 $entityManager->flush();
-
-                //make something curious, get some unbelieveable data
+                // return the Pokemon JSON object
                 return new JsonResponse(json_decode($pokemon->__toString()));
             }
         }
@@ -139,17 +147,18 @@ class TeamController extends AbstractController
     */
     public function removePokemon(Request $request)
     {
+        // pick Pokemon from the AJAX request
         $pokemonId = $request->request->get('pokemonId');
         if($pokemonId){
+            // pick repository to find related Pokemon object
             $entityManager = $this->getDoctrine()->getManager();
-            
             $pokemonRepository = $entityManager->getRepository(Pokemon::class);
             $pokemon = $pokemonRepository->find($pokemonId);
-            
+            // delete Pokemon
             $entityManager->remove($pokemon);
             $entityManager->flush();
 
-            //make something curious, get some unbelieveable data
+            // return the Pokemon id as JSON object
             return new JsonResponse(['id' => $pokemonId]);
         }
         // temp management of exception and error
