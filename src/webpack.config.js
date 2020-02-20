@@ -28,7 +28,7 @@ Encore
     .enableSingleRuntimeChunk()
 
     // processes files ending in .less
-    .enableLessLoader()
+    // .enableLessLoader()
 
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
@@ -39,7 +39,7 @@ Encore
     //.enableTypeScriptLoader()
 
     // uncomment if you use Sass/SCSS files
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()

@@ -1,4 +1,4 @@
-require('../css/team.less');
+require('../css/team.scss');
 
 /**
 * Add a Pokemon to the selected team-id list.
