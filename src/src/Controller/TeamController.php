@@ -21,6 +21,8 @@ class TeamController extends AbstractController
 
     const FIRST_POKEMON = 1;
     const LAST_POKEMON = 807;
+    const MAX_POKEMON = 6;
+
     /**
      * @Route("/", name="team_index", methods={"GET"})
      */
@@ -113,22 +115,25 @@ class TeamController extends AbstractController
         $teamId = $request->request->get('teamId');
         if($teamId){
             $entityManager = $this->getDoctrine()->getManager();
-            
             $teamRepository = $entityManager->getRepository(Team::class);
             $team = $teamRepository->find($teamId);
-            $pokemon = new Pokemon();
-            $pokemon->setTeam($team);
-            $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
-            $pokemon->setNumber($number);
+            if($team->countPokemon() < 6) {
+                $pokemon = new Pokemon();
+                $pokemon->setTeam($team);
+                $number = rand(self::FIRST_POKEMON, self::LAST_POKEMON);
+                $pokemon->setNumber($number);
 
-            $entityManager->persist($pokemon);
-            $entityManager->flush();
+                $entityManager->persist($pokemon);
+                $entityManager->flush();
 
-            //make something curious, get some unbelieveable data
-            return new JsonResponse(json_decode($pokemon->__toString()));
+                //make something curious, get some unbelieveable data
+                return new JsonResponse(json_decode($pokemon->__toString()));
+            }
         }
-
-        return $this->render('app/main/index.html.twig');
+        // temp management of exception and error
+        header('HTTP/1.1 500 Internal Server Error');
+        header('Content-Type: application/json; charset=UTF-8');
+        die(json_encode(array('message' => 'addPokemon: Cannot add a Pokemon', 'code' => 1001)));
     }
 
     /**
@@ -149,8 +154,10 @@ class TeamController extends AbstractController
             //make something curious, get some unbelieveable data
             return new JsonResponse(['id' => $pokemonId]);
         }
-
-        return $this->render('app/main/index.html.twig');
+        // temp management of exception and error
+        header('HTTP/1.1 500 Internal Server Error');
+        header('Content-Type: application/json; charset=UTF-8');
+        die(json_encode(array('message' => 'removePokemon: Cannot remove the Pokemon', 'code' => 1002)));
     }
 
 

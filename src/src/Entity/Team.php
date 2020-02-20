@@ -119,6 +119,11 @@ class Team
         return $this;
     }
 
+    public function countPokemon(): int
+    {
+        return sizeof($this->pokemon);
+    }
+
     /**
      * Generates the magic method
      * 
