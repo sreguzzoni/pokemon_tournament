@@ -24,14 +24,18 @@
                         <td>
                             {{ include('team/_pokemon_list_element.html.twig') }}
                         </td>
-                        <td class='pokemon-list-empty hidden'>
-                            This team is empty.
-                        </td>
-                    {% else %}
+                    {% endfor %}
+
+                    {% if team.pokemon|length == 0 %}
                         <td class='pokemon-list-empty'>
                             This team is empty.
                         </td>
-                    {% endfor %}
+                    {% else %}
+                        <td class='pokemon-list-empty hidden'>
+                            This team is empty.
+                        </td>
+                    {% endif %}
+                    
                     
                 </tr>
 
