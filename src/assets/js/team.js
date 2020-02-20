@@ -99,7 +99,7 @@ const removePokemon = (path, pokemon) => {
         error: function (data)
         {
             // console.log('removePokemon function:' + data);
-            alert('Can\'t add a pokemon');
+            alert('Can\'t remove the pokemon');
         }
     });
 }
