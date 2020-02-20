@@ -62,6 +62,7 @@ class TeamController extends AbstractController
     {
         return $this->render('team/show.html.twig', [
             'team' => $team,
+            'pokemon' => $team->getPokemon()
         ]);
     }
 
@@ -119,14 +120,7 @@ class TeamController extends AbstractController
             $entityManager->flush();
 
             //make something curious, get some unbelieveable data
-            $arrData = [
-                'name' => $pokemon->getName(),
-                'exp' => $pokemon->getExp(),
-                'img' => $pokemon->getImg(),
-                'abilities' => $pokemon->getAbilities(),
-                'types' => $pokemon->getTypes()
-            ];
-            return new JsonResponse($arrData);
+            return new JsonResponse($pokemon->toString());
         }
 
         return $this->render('app/main/index.html.twig');

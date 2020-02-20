@@ -78,6 +78,9 @@ class Team
      */
     public function getPokemon(): Collection
     {
+        foreach ($this->pokemon as $single_pokemon) {
+            $single_pokemon->setPokemonInfo();
+        }
         return $this->pokemon;
     }
 

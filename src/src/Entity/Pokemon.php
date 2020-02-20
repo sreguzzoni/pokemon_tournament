@@ -28,18 +28,12 @@ class Pokemon
      */
     private $number;
 
-    private $api;
     private $pokemon_obj;
     private $pokemon_name;
     private $pokemon_exp;
     private $pokemon_img;
     private $pokemon_abilities;
     private $pokemon_types;
-
-    public function __construct()
-    {
-        $this->api = new PokeApi;
-    }
 
     public function getId(): ?int
     {
@@ -71,8 +65,9 @@ class Pokemon
 
     public function setPokemonInfo() 
     {
+        $api = new PokeApi;
         $this->pokemon_obj = json_decode(
-            $this->api->pokemon($this->getNumber())
+            $api->pokemon($this->getNumber())
         );
         $this->pokemon_name = $this->pokemon_obj->name;
         $this->pokemon_exp = $this->pokemon_obj->base_experience;
@@ -104,6 +99,16 @@ class Pokemon
     public function getTypes()
     {
         return $this->pokemon_types;   
+    }
+
+    public function __toString() {
+        return json_encode([
+            'name' => $this->getName(),
+            'exp' => $this->getExp(),
+            'img' => $this->getImg(),
+            'abilities' => $this->getAbilities(),
+            'types' => $this->getTypes()
+        ]);
     }
 
 }
