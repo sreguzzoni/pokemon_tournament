@@ -20,6 +20,7 @@
                     <td>
                         {% for single_pokemon in team.pokemon %}
                             {{ single_pokemon }}
+                            {{ include('team/_pokemon_delete_btn.html.twig')}}
                         {% else %}
                             This team is empty.
                         {% endfor %}

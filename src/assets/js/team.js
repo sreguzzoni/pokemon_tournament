@@ -20,6 +20,26 @@ const addPokemon = (path, team) => {
     });
 }
 
+const removePokemon = (path, pokemon) => {
+    $.ajax({
+        url: path,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            pokemonId: pokemon
+        },
+        async: true,
+        success: function (data)
+        {
+            console.log('removePokemon function:' + data)
+        },
+        error: function (data)
+        {
+            console.log('removePokemon function:' + data);
+        }
+    });
+}
+
 const addPokemonBind = () => {
 	let buttons = $('.ajax');
 	$(buttons).on('click', function() {
@@ -29,6 +49,16 @@ const addPokemonBind = () => {
 	});
 }
 
+const removePokemonBind = () => {
+    let buttons = $('.pokemon-remove-btn');
+    $(buttons).on('click', function() {
+        let path = $(this).data('path');
+        let pokemon = $(this).data('pokemon');
+        removePokemon(path, pokemon);
+    });
+}
+
 $(document).ready(function() {
 	addPokemonBind();
+    removePokemonBind();
 });

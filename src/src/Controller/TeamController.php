@@ -6,6 +6,7 @@ use App\Entity\Team;
 use App\Entity\Pokemon;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
+use App\Repository\PokemonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -125,6 +126,28 @@ class TeamController extends AbstractController
 
             //make something curious, get some unbelieveable data
             return new JsonResponse(json_decode($pokemon->__toString()));
+        }
+
+        return $this->render('app/main/index.html.twig');
+    }
+
+    /**
+    * @Route("/removePokemon", name="team_removePokemon", methods={"POST"})
+    */
+    public function removePokemon(Request $request)
+    {
+        $pokemonId = $request->request->get('pokemonId');
+        if($pokemonId){
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $pokemonRepository = $entityManager->getRepository(Pokemon::class);
+            $pokemon = $pokemonRepository->find($pokemonId);
+            
+            $entityManager->remove($pokemon);
+            $entityManager->flush();
+
+            //make something curious, get some unbelieveable data
+            return new JsonResponse(['id' => $pokemonId]);
         }
 
         return $this->render('app/main/index.html.twig');
