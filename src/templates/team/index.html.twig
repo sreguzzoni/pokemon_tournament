@@ -13,70 +13,55 @@
       <h2>Crea e gestisci i tuoi Pokemon in fantasici team!</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
     </header>
-
-    {% for team in teams %}
     <div class="team-list--list">
-        <table class="team-list--list--item table" id='team-{{ team.id }}'>
-            <tbody>
-                <tr>
-                    <th>Name</th>
-                    <td>
-                        {{ team.name }}
-                    </td>
-                </tr>
-
-                <tr class='pokemon-list'>
-                    <th>Pokemon</th>
-
+    {% for team in teams %}
+        <a href="{{ path('team_edit', {'id': team.id}) }}" class="team-list--list--item" id='team-{{ team.id }}'>
+            <div class="team-list--list--item--header">
+                <span>TEAM NAME</span>
+                <h3>{{ team.name }}</h3>
+                <span>POKEMON</span>
+            </div>
+            <div class="pokemon-list">
+                
+                {% if team.pokemon|length == 0 %}
+                    <div class='pokemon-list-empty'>
+                        This team is empty.
+                    </div>
+                {% else %}
                     {% for single_pokemon in team.pokemon %}
-                        <td>
-                            {{ include('team/_pokemon_list_element.html.twig') }}
-                        </td>
+                        <div class='pokemon-list--single' id='pokemon-{{ single_pokemon.id }}' pokemon-team='{{ team.id }}'>
+                            <div class="img-wrapper">
+                                <img src="{{ single_pokemon.img }}" alt="{{ single_pokemon.name }}" />
+                            </div>
+                            <div class='types'>
+                                <span>FUOCO</span><span>ACQUA</span> 
+                            </div>
+                            EXP : {{ single_pokemon.exp }}
+                        </div>
                     {% endfor %}
-
-                    {% if team.pokemon|length == 0 %}
-                        <td class='pokemon-list-empty'>
-                            This team is empty.
-                        </td>
-                    {% else %}
-                        <td class='pokemon-list-empty hidden'>
-                            This team is empty.
-                        </td>
-                    {% endif %}
-                </tr>
-
-                <tr>
-                    <th>Actions</th>
-                    <td>
-                        {{ include('team/_delete_form.html.twig') }}
-                    </td>
-                    <td>
-                        {{ include('team/_edit_btn.html.twig') }}
-                    </td>
-                    <td>
-                        {{ include('team/_pokemon_add_btn.html.twig') }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                {% endif %}
+            </div>
+            <div class="actions">
+                {{ include('team/_delete_form.html.twig') }}
+            </div>
+        </a>
     {% else %}
-        <div class="team-list--list no-results">
-            <table class="table">
-                <tr>
-                    <td>
-                        <p>No teams found.</p>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <table class="table no-results">
+            <tr>
+                <td>
+                    <p>No teams found.</p>
+                </td>
+            </tr>
+        </table>
     {% endfor %}
+    </div>
     <div class="team-list--add">
       <a class="btn btn-primary" href="{{ path('team_new') }}">Create new team!</a>
     </div>
 
   </div>
 {% endblock %}
+
 
 {% block javascripts_child %}
     <script type="text/javascript" src="{{ asset('build/team.js') }}"></script>
