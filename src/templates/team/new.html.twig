@@ -2,6 +2,10 @@
 
 {% block title %}New Team{% endblock %}
 
+{% block stylesheets_child %}
+  <link rel="stylesheet" href="{{ asset('build/team.css') }}" />
+{% endblock %}
+
 {% block body %}
     <h1>Create new Team</h1>
 
@@ -12,23 +16,19 @@
 
     <a href="{{ path('team_index') }}">back to list</a>
 
-    <table class="table" id='team-0'>
-        <tbody>
-            <tr class='pokemon-list'>
-                <th>Pokemon</th>
-                <td class='pokemon-list-empty'>
-                        This team is empty.
-                </td>
-            </tr>
-
-            <tr>
-                <th>Actions</th>
-                <td>
-                    {{ include('team/_pokemon_add_btn_local.html.twig') }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="team-list--list--item" id='team-0'>
+            <div class="team-list--list--item--header">
+                <span>POKEMON</span>
+            </div>
+            <div class="pokemon-list">
+                <div class='pokemon-list-empty'>
+                    This team is empty.
+                </div>
+            </div>
+            <div class="actions">
+                {{ include('team/_pokemon_add_btn_local.html.twig') }}
+            </div>
+        </div>
 
 {% endblock %}
 

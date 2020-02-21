@@ -1,21 +1,25 @@
-<div class='pokemon-list-element' id='pokemon-{{ single_pokemon.id }}' pokemon-team='{{ team.id }}'>
+<div class='pokemon-list--single' id='pokemon-{{ single_pokemon.id }}' pokemon-team='{{ team.id }}' pokemon-number='{{ single_pokemon.number }}'>
 	<div class='name'>
 		{{ single_pokemon.name }}
 	</div>
 	<div class='exp'>
 		{{ single_pokemon.exp }}
 	</div>
-	<div class='img'>
-		{{ single_pokemon.img }}
-	</div>
-	<div class='abilities'>
-	
-	</div>
-	<div class='types'>
-	
-	</div>
+	<div class='img-wrapper'>
+        <img src='{{ single_pokemon.img }}' alt='{{ single_pokemon.name }}'/>
+    </div>
 
-	<button class="pokemon-remove-btn" data-path='{{ (path('remove_pokemon')) }}' data-pokemon='{{ single_pokemon.id }}'>
+	<div class='abilities'>
+		{% for ability in single_pokemon.abilities %}
+            <span class='ability'>{{ ability }}</span>
+        {% endfor %}
+	</div>
+    <div class='types'>
+    	{% for type in single_pokemon.types %}
+            <span class='type'>{{ type }}</span>
+        {% endfor %}
+    </div>
+	<button class='pokemon-remove-btn' data-path='local' data-pokemon='{{ single_pokemon.id }}'>
 		Remove
 	</button>
 </div>

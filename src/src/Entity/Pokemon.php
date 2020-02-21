@@ -78,8 +78,15 @@ class Pokemon
         $this->pokemon_name = $this->pokemon_obj->name;
         $this->pokemon_exp = $this->pokemon_obj->base_experience;
         $this->pokemon_img = $this->pokemon_obj->sprites->front_default;
-        $this->pokemon_abilities = $this->pokemon_obj->abilities;
-        $this->pokemon_types = $this->pokemon_obj->types;
+        $this->pokemon_abilities = array();
+        foreach ($this->pokemon_obj->abilities as $ability_obj) {
+            array_push($this->pokemon_abilities, $ability_obj->ability->name);
+        }
+        $this->pokemon_types = array();
+        foreach ($this->pokemon_obj->types as $type_obj) {
+            array_push($this->pokemon_types, $type_obj->type->name);
+        }
+
     }
 
     public function getName(): ?String

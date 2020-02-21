@@ -16,10 +16,11 @@ var local_pokemon = 0;
 * @param pokemon The inserted pokemon JSON object
 */
 const addPokemonInList = (team, pokemon) => {
+console.log("Adding");
     // set useful vars avoid multiple repicking
     let pokemonList = $('#team-' + team + ' .pokemon-list'), // the list of pokemon DOM objects in the team
         emptyData = $(pokemonList).find('.pokemon-list-empty'), // the empty data DOM object
-        newPokemon = $('.pokemon-list-element.tpl').clone(), // clone the tpl and create a new DOM object
+        newPokemon = $('.pokemon-list--single.tpl').clone(), // clone the tpl and create a new DOM object
         newPokemonRemoveBtn = newPokemon.find('.pokemon-remove-btn'); // the new remove button
     // set useful attribute
     newPokemon.attr('id', 'pokemon-' + pokemon['id']);
@@ -28,9 +29,14 @@ const addPokemonInList = (team, pokemon) => {
     // set innert text
     newPokemon.find('.name').text(pokemon['name']);
     newPokemon.find('.exp').text(pokemon['exp']);
-    newPokemon.find('.img').text(pokemon['img']);
-    newPokemon.find('.abilities').text(pokemon['abilities']);
-    newPokemon.find('.types').text(pokemon['types']);
+    // set img
+    newPokemon.find('.img-wrapper img').attr('src', pokemon['img']);
+    newPokemon.find('.img-wrapper img').attr('alt', pokemon['name']);
+    // set abilities
+    pokemon['abilities'].forEach(ability => $('<span></span>').text(ability['ability']['name']).appendTo(newPokemon.find('.abilities')));
+    // set types
+    let typeN = 1;
+    pokemon['types'].forEach(type => $('<span></span>').text(type['type']['name']).appendTo(newPokemon.find('.types')));
     // work on delete button
     newPokemonRemoveBtn.attr('data-pokemon', pokemon['id']);
     // remove tpl class
@@ -40,7 +46,7 @@ const addPokemonInList = (team, pokemon) => {
         emptyData.addClass('hidden');
     }
     // append the new pokemon to the list
-    $('<td></td>').html(newPokemon).appendTo(pokemonList);
+    newPokemon.appendTo(pokemonList);
     // bind the function on remove btn
     removePokemonBind();
 }
@@ -81,11 +87,15 @@ const removePokemonInList = (pokemon) => {
         team = pokemonListElement.attr('pokemon-team'), // the team id
         pokemonList = $('#team-' + team + ' .pokemon-list'), // the list of pokemon DOM objects in the team
         emptyData = $(pokemonList).find('.pokemon-list-empty'); // the empty data DOM object
-    pokemonListElement.parent().remove();
+    pokemonListElement.remove();
     // show empty element if there aren't Pokemon anymore
-    if(pokemonList.children('td').length <= 1) {
+    if(pokemonList.children('.pokemon-list--single:not(.tpl)').length == 0) {
         emptyData.removeClass('hidden');
     }
+}
+
+const countPokemonInTeam = () => {
+    local_pokemon = $('.pokemon-list--single:not(.tpl)').length;
 }
 
 /**
@@ -122,15 +132,15 @@ const addPokemonBind = () => {
 	let buttons = $('.pokemon-add-btn');
 	$(buttons).off('click').on('click', function() {
         let path = $(this).data('path');
+        let team = $(this).data('team');
         if(path !== 'local') {
-            let team = $(this).data('team');
-		    addPokemon(path, team);
+            addPokemon(path, team);
         } else {
             // if the pokemon cannot be saved on db
             if(local_pokemon < MAX_POKEMON) {
                 local_pokemon++;
                 let number = Math.floor(Math.random() * LAST_POKEMON) + FIRST_POKEMON;
-                getPokemon(number);
+                getPokemon(number, team);
             } else {
                 alert('You can\'t add a pokemon anymore!');
             }
@@ -162,7 +172,7 @@ const removePokemonBind = () => {
 * Retrieve informations about a single Pokemon from the id.
 * @param pokemonNumber The selected Pokemon id
 */
-const getPokemon = (pokemonNumber) => {
+const getPokemon = (pokemonNumber, team = 0) => {
     POKEDEX.getPokemonByName(pokemonNumber)
         .then(function(response) {
             // create JSON object
@@ -175,14 +185,14 @@ const getPokemon = (pokemonNumber) => {
                 'abilities': response['abilities'],
                 'types': response['types']
             };
-            addPokemonInList(0, pokemonJSON);
+            addPokemonInList(team, pokemonJSON);
             updateLocalPokemonInput();
     });
 }
 
 const updateLocalPokemonInput = () => {
     let pokemon_local_numbers = new Array();
-    $('.pokemon-list-element:not(.tpl)').each(function() {
+    $('.pokemon-list--single:not(.tpl)').each(function() {
         pokemon_local_numbers.push($(this).attr('pokemon-number'));
     });
     $('#team_pokemon').val(pokemon_local_numbers);
@@ -193,4 +203,7 @@ $(document).ready(function() {
     // bind buttons
 	addPokemonBind();
     removePokemonBind();
+    // update local pokemon number for edit form
+    countPokemonInTeam();
+    updateLocalPokemonInput();
 });

@@ -126,4 +126,17 @@ class Team
     {
         return $this->name;
     }
+
+    public function hasPokemon(int $pokemon_number)
+    {
+        $myPokemon = $this->getPokemon();
+        $ret = false;
+        foreach ($myPokemon as $pokemon) {
+            if($pokemon->getNumber() == $pokemon_number) {
+                $ret = true;
+                break;
+            }
+        }
+        return $ret;
+    }
 }

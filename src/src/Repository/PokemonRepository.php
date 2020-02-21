@@ -36,6 +36,19 @@ class PokemonRepository extends ServiceEntityRepository
     }
     */
 
+    
+    public function findOneByTeamAndNumber($team, $number): ?Pokemon
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.number = :val')
+            ->andWhere('p.team = :val2')
+            ->setParameter('val', $number)
+            ->setParameter('val2', $team)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Pokemon
     {

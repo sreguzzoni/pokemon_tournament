@@ -34,7 +34,9 @@
                                 <img src="{{ single_pokemon.img }}" alt="{{ single_pokemon.name }}" />
                             </div>
                             <div class='types'>
-                                <span>FUOCO</span><span>ACQUA</span> 
+                                {% for type in single_pokemon.types %}
+                                    <span class="type">{{ type }}</span>
+                                {% endfor %}
                             </div>
                             EXP : {{ single_pokemon.exp }}
                         </div>

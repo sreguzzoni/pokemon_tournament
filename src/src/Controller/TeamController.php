@@ -104,7 +104,38 @@ class TeamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $pokemon = $form['pokemon']->getData();
+            $pokemon = explode(',', $pokemon);        
+
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            // delete old pokemon
+            foreach ($team->getPokemon() as $pokemon_in_team) {
+                $pokemonNumber = $pokemon_in_team->getNumber();
+                if(in_array((String)$pokemonNumber, (array)$pokemon) == false) {
+                    // if an old pokemon isn't in the new list
+                    $pokemonRepository = $entityManager->getRepository(Pokemon::class);
+                    $pokemon_to_remove = $pokemonRepository->findOneByTeamAndNumber($team->getId(), $pokemonNumber);
+                    // delete Pokemon
+                    $entityManager->remove($pokemon_to_remove);
+                    $entityManager->flush();
+                }
+            }
+
+            // add new ones
+            foreach ($pokemon as $single_pokemon) {
+                if($team->hasPokemon((int)$single_pokemon) == false) {
+                    $pokemon = new Pokemon();
+                    $pokemon->setTeam($team);
+                    $pokemon->setNumber((int)$single_pokemon);
+                    // save pokemon
+                    $entityManager->persist($pokemon);
+                    $entityManager->flush();
+                }
+            }
+
+
+            $entityManager->flush();
 
             return $this->redirectToRoute('team_index');
         }
