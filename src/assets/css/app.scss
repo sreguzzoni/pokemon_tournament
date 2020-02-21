@@ -1,15 +1,33 @@
-@import "../../node_modules/bootstrap";
+@import "global/_all"; // GLOBAL
+
+@import "general/_all"; // GENERAL STYLE
+@import "theme/_all"; // THEME & COMPONENTS STYLE
+
+html {
+  font-size: 62.5%;
+  @include media-breakpoint-down('md') {
+    font-size: 54%;
+  }
+  @include media-breakpoint-down('sm') {
+    font-size: 45.5%;
+  }
+  @include media-breakpoint-down('xs') {
+    font-size: 35.5%;
+  }
+}
 
 body {
-    background-color: lightgray;
+  font-family: $font-family-primary;
+  font-size: 1rem;
+  margin: 0;
+  overflow-x: hidden;
 }
 
-.tpl {
-	display: none;
-	visibility: hidden;
+img {
+  display: block;
+  max-width: 100%;
 }
 
-.hidden {
-	display: none;
-	visibility: hidden;
+strong {
+  font-weight: bold;
 }

@@ -2,12 +2,24 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('build/app.css') }}" />
         {% endblock %}
+        {% block stylesheets_child %}
+        {% endblock %}
     </head>
     <body>
+      <header class="header-main">
+        <div class="container">
+          <div class="logo">
+            <img src="https://www.pngkit.com/png/full/19-190666_pokeball-graphic-by-maratuna-on-deviantart-banner-free.png" alt="Logo">
+            <h1>Team Builder</h1>
+          </div>
+        </div>
+      </header>
         {% block body %}{% endblock %}
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('build/runtime.js') }}"></script>
@@ -15,5 +27,12 @@
         {% endblock %}
         {% block javascripts_child %}
         {% endblock %}
+        <footer>
+          <div class="container">
+            <p>
+              Copyright © 2020 SIMONE REGUZZONI. Tutti i diritti riservati.
+            </p>
+          </div>
+        </footer>
     </body>
 </html>

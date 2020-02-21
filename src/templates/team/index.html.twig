@@ -2,13 +2,21 @@
 
 {% block title %}Team index{% endblock %}
 
-{% block body %}
-    <h1>Your Teams</h1>
+{% block stylesheets_child %}
+  <link rel="stylesheet" href="{{ asset('build/team.css') }}" />
+{% endblock %}
 
-    {{ include('team/_pokemon_list_element_tpl.html.twig') }}
+{% block body %}
+  <div class="team-list content container">
+    <header class="content--header">
+      <h1>Your Teams</h1>
+      <h2>Crea e gestisci i tuoi Pokemon in fantasici team!</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+    </header>
 
     {% for team in teams %}
-        <table class="table" id='team-{{ team.id }}'>
+    <div class="team-list--list">
+        <table class="team-list--list--item table" id='team-{{ team.id }}'>
             <tbody>
                 <tr>
                     <th>Name</th>
@@ -19,7 +27,7 @@
 
                 <tr class='pokemon-list'>
                     <th>Pokemon</th>
-                
+
                     {% for single_pokemon in team.pokemon %}
                         <td>
                             {{ include('team/_pokemon_list_element.html.twig') }}
@@ -35,8 +43,8 @@
                             This team is empty.
                         </td>
                     {% endif %}
-                    
-                    
+
+
                 </tr>
 
                 <tr>
@@ -53,17 +61,23 @@
                 </tr>
             </tbody>
         </table>
+    </div>
     {% else %}
-        <table class="table">
-            <tr>
-                <td>
-                    No teams found.
-                </td>
-            </tr>
-        </table>
+        <div class="team-list--list no-results">
+            <table class="table">
+                <tr>
+                    <td>
+                        <p>No teams found.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
     {% endfor %}
+    <div class="team-list--add">
+      <a class="btn btn-primary" href="{{ path('team_new') }}">Create new team!</a>
+    </div>
 
-    <a href="{{ path('team_new') }}">Create new team!</a>
+  </div>
 {% endblock %}
 
 {% block javascripts_child %}

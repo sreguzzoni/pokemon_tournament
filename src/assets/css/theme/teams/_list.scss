@@ -1,0 +1,28 @@
+.team-list{
+  &--list {
+    &.no-results {
+      text-align: center;
+      p {
+        font-size: 3rem;
+      }
+    }
+    &--item {
+      background: red;
+    }
+    @include media-breakpoint-down('sm') {
+      padding: $padding-mobile-md 0 $padding-mobile-sm;
+    }
+    @include media-breakpoint-up('md') {
+      padding: $padding-desktop-md 0 $padding-desktop-sm;
+    }
+  }
+  &--add {
+    text-align: center;
+    @include media-breakpoint-down('sm') {
+      padding: $padding-mobile-md 0 $padding-mobile-lg;
+    }
+    @include media-breakpoint-up('md') {
+      padding: $padding-desktop-md 0 $padding-desktop-lg;
+    }
+  }
+}

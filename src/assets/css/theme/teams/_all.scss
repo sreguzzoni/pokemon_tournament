@@ -1,0 +1,15 @@
+@import "_list";
+
+.content {
+  &--header{
+    h1, p {
+      color: $color-grey;
+    }
+    @include media-breakpoint-down('sm') {
+      padding: $padding-mobile-lg 0 $padding-mobile-md;
+    }
+    @include media-breakpoint-up('md') {
+      padding: $padding-desktop-lg 0 $padding-desktop-md;
+    }
+  }
+}

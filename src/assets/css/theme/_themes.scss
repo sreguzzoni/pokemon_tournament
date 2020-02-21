@@ -1,0 +1,13 @@
+@import "component/_all";
+@import "fragment/_all";
+
+body {
+	background: $color-grey-light;
+	@include media-breakpoint-down('sm') {
+	}
+	@include media-breakpoint-up('md') {
+	}
+	.content {
+		min-height: 80vh;
+	}
+}

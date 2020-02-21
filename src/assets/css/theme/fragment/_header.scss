@@ -1,0 +1,44 @@
+header.header-main {
+  background: $color-grey-dark;
+  color: white;
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    img {
+      margin-right: 1rem;
+      opacity: .5;
+    }
+    h1 {
+      display: inline-block;
+      color: $color-grey;
+      margin: 0;
+    }
+  }
+  @include media-breakpoint-down('sm') {
+    padding: 20px 0;
+    .logo {
+
+      img {
+        max-width: 12px;
+        max-height: 12px;
+        margin-right: 8px;
+      }
+      h1 {
+        font-size: 12px;
+      }
+    }
+  }
+  @include media-breakpoint-up('md') {
+    padding: $padding-desktop-sm / 1.5 0;
+    .logo {
+
+      img {
+        max-width: 2rem;
+        max-height: 2rem;
+      }
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+  }
+}

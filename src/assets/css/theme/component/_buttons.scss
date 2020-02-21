@@ -1,0 +1,41 @@
+.btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: $font-family-primary;
+  font-size: 1.8rem;
+  line-height: 1.42;
+  border-radius: 100rem;
+  text-decoration: none;
+  outline: none;
+  &.btn-primary {
+    border: 2px solid $color-black;
+    padding: 1.6rem 4rem;
+    background-color: $color-black;
+    color: $color-white;
+    transition: color .35s ease, background .35s ease;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $color-white;
+      color: $color-black;
+    }
+  }
+  &.btn-secondary {
+    padding: 1.6rem 4rem;
+    background: $color-secondary;
+    background-size: 150% auto;
+    background-position: 0 0;
+    color: $color-white;
+    transition: background-position .8s ease;
+    &:hover,
+    &:focus,
+    &:active {
+      background-position: 100% 0;
+    }
+  }
+}

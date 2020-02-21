@@ -1,0 +1,8 @@
+@import "_variables";
+@import "helper/_all";
+
+@mixin font-colored() {
+  background: linear-gradient(45deg,$color-gradient-primary,$color-gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

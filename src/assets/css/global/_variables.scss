@@ -1,0 +1,42 @@
+
+$font-family-primary: 'Press Start 2P', cursive;
+
+$color-black: #101010;
+$color-white: #ffffff;
+
+$color-grey-light: #f5f5f5;
+$color-grey: #929292;
+$color-grey-dark: #1e1e1e;
+
+$color-primary: #e3350d;
+$color-secondary: #e6bc2e;
+
+$padding-desktop-sm: 20px;
+$padding-desktop-md: 60px;
+$padding-desktop-lg: 120px;
+
+$padding-mobile-sm: 15px;
+$padding-mobile-md: 30px;
+$padding-mobile-lg: 60px;
+
+
+// ----------------------------------------------------------------
+// Grid breakpoints
+// ----------------------------------------------------------------
+
+$grid-breakpoints: (
+		xs: 0,
+		sm: 576px,
+		md: 768px,
+		lg: 992px,
+		xl: 1200px,
+		xxl: 1690px
+);
+
+$container-max-widths: (
+		sm: 540px,
+		md: 720px,
+		lg: 960px,
+		xl: 1140px,
+		xxl: 1630px
+);

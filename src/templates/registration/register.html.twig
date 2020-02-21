@@ -1,15 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
+{% block stylesheets_child %}
+  <link rel="stylesheet" href="{{ asset('build/login.css') }}" />
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+  <div class="user content container">
+    <h1>Please sign in</h1>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div class="input-wrapper">
+          {{ form_row(registrationForm.email) }}
+        </div>
+        <div class="input-wrapper">
+          {{ form_row(registrationForm.plainPassword) }}
+        </div>
+        <div class="input-wrapper--checkbox">
+          <input type="checkbox" id="registration_form_agreeTerms" name="registration_form[agreeTerms]" value="1">
+          <label for="registration_form_agreeTerms" class="required">Agree terms</label>
+        </div>
 
-        <button class="btn">Register</button>
+        <button class="btn btn-primary">Register</button>
     {{ form_end(registrationForm) }}
+
+  </div>
 {% endblock %}
