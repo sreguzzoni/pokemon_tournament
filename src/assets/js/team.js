@@ -1,5 +1,15 @@
 require('../css/team.scss');
 
+const Pokedex = require('pokeapi-js-wrapper');
+
+const POKEDEX = new Pokedex.Pokedex();
+
+const FIRST_POKEMON = 1;
+const LAST_POKEMON = 807;
+const MAX_POKEMON = 6;
+
+var local_pokemon = 0;
+
 /**
 * Add a Pokemon to the selected team-id list.
 * @param team The selected team id
@@ -14,6 +24,7 @@ const addPokemonInList = (team, pokemon) => {
     // set useful attribute
     newPokemon.attr('id', 'pokemon-' + pokemon['id']);
     newPokemon.attr('pokemon-team', team);
+    newPokemon.attr('pokemon-number', pokemon['number']);
     // set innert text
     newPokemon.find('.name').text(pokemon['name']);
     newPokemon.find('.exp').text(pokemon['exp']);
@@ -111,8 +122,19 @@ const addPokemonBind = () => {
 	let buttons = $('.pokemon-add-btn');
 	$(buttons).off('click').on('click', function() {
         let path = $(this).data('path');
-        let team = $(this).data('team');
-		addPokemon(path, team);
+        if(path !== 'local') {
+            let team = $(this).data('team');
+		    addPokemon(path, team);
+        } else {
+            // if the pokemon cannot be saved on db
+            if(local_pokemon < MAX_POKEMON) {
+                local_pokemon++;
+                let number = Math.floor(Math.random() * LAST_POKEMON) + FIRST_POKEMON;
+                getPokemon(number);
+            } else {
+                alert('You can\'t add a pokemon anymore!');
+            }
+        }
 	});
 }
 
@@ -124,8 +146,46 @@ const removePokemonBind = () => {
     $(buttons).off('click').on('click', function() {
         let path = $(this).data('path');
         let pokemon = $(this).data('pokemon');
-        removePokemon(path, pokemon);
+        console.log(pokemon);
+        if(path !== 'local') {
+            removePokemon(path, pokemon);
+        } else {
+            // if the pokemon is not saved on db
+            removePokemonInList({'id': pokemon});
+            local_pokemon--;
+            updateLocalPokemonInput();
+        }
     });
+}
+
+/*
+* Retrieve informations about a single Pokemon from the id.
+* @param pokemonNumber The selected Pokemon id
+*/
+const getPokemon = (pokemonNumber) => {
+    POKEDEX.getPokemonByName(pokemonNumber)
+        .then(function(response) {
+            // create JSON object
+            let pokemonJSON = {
+                'id' : local_pokemon,
+                'number': pokemonNumber,
+                'name': response['name'],
+                'exp': response['base_experience'],
+                'img': response['sprites']['front_default'],
+                'abilities': response['abilities'],
+                'types': response['types']
+            };
+            addPokemonInList(0, pokemonJSON);
+            updateLocalPokemonInput();
+    });
+}
+
+const updateLocalPokemonInput = () => {
+    let pokemon_local_numbers = new Array();
+    $('.pokemon-list-element:not(.tpl)').each(function() {
+        pokemon_local_numbers.push($(this).attr('pokemon-number'));
+    });
+    $('#team_pokemon').val(pokemon_local_numbers);
 }
 
 /**************** ENTRY POINT *******************/

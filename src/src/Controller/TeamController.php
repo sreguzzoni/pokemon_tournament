@@ -49,14 +49,31 @@ class TeamController extends AbstractController
     {
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
+        
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $pokemon = $form['pokemon']->getData();
+            $pokemon = explode(',', $pokemon);        
+
+
+            
+            
             $team->setUser($this->getUser());
             $team->setDatetime(new \Datetime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($team);
             $entityManager->flush();
+
+            foreach ($pokemon as $single_pokemon) {
+                $pokemon = new Pokemon();
+                $pokemon->setTeam($team);
+                $pokemon->setNumber((int)$single_pokemon);
+                // save pokemon
+                $entityManager->persist($pokemon);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('team_index');
         }
@@ -91,7 +108,7 @@ class TeamController extends AbstractController
 
             return $this->redirectToRoute('team_index');
         }
-
+        $team->getPokemon();
         return $this->render('team/edit.html.twig', [
             'team' => $team,
             'form' => $form->createView(),
