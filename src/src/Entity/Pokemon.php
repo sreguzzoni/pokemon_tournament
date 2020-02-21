@@ -110,6 +110,7 @@ class Pokemon
     public function __toString() {
         return json_encode([
             'id' => $this->getId(),
+            'number' => $this->getNumber(),
             'name' => $this->getName(),
             'exp' => $this->getExp(),
             'img' => $this->getImg(),

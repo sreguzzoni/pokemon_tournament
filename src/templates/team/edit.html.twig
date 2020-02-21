@@ -4,7 +4,48 @@
 
 {% block body %}
     <h1>Edit Team</h1>
-    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('team/_pokemon_list_element_tpl.html.twig') }}
+    
+    {{ include('team/_form.html.twig', {'button_label': 'Change name'}) }}
+
+    <table class="table" id='team-{{ team.id }}'>
+        <tbody>
+            <tr class='pokemon-list'>
+                <th>Pokemon</th>
+            
+                {% for single_pokemon in team.pokemon %}
+                    <td>
+                        {{ include('team/_pokemon_list_element.html.twig') }}
+                    </td>
+                {% endfor %}
+
+                {% if team.pokemon|length == 0 %}
+                    <td class='pokemon-list-empty'>
+                        This team is empty.
+                    </td>
+                {% else %}
+                    <td class='pokemon-list-empty hidden'>
+                        This team is empty.
+                    </td>
+                {% endif %}
+                               
+            </tr>
+
+            <tr>
+                <th>Actions</th>
+                <td>
+                    {{ include('team/_delete_form.html.twig') }}
+                </td>
+                <td>
+                    {{ include('team/_edit_btn.html.twig') }}
+                </td>
+                <td>
+                    {{ include('team/_pokemon_add_btn.html.twig') }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
     <a href="{{ path('team_index') }}">back to list</a>
 {% endblock %}
 
