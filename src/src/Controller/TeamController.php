@@ -85,13 +85,9 @@ class TeamController extends AbstractController
         
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $pokemon = $form['pokemon']->getData();
             $pokemon = explode(',', $pokemon);        
-
-
-            
             
             $team->setUser($this->getUser());
             $team->setDatetime(new \Datetime());
@@ -99,13 +95,15 @@ class TeamController extends AbstractController
             $entityManager->persist($team);
             $entityManager->flush();
 
-            foreach ($pokemon as $single_pokemon) {
-                $pokemon = new Pokemon();
-                $pokemon->setTeam($team);
-                $pokemon->setNumber((int)$single_pokemon);
-                // save pokemon
-                $entityManager->persist($pokemon);
-                $entityManager->flush();
+            if($pokemon[0] != "") {
+                foreach ($pokemon as $single_pokemon) {
+                    $pokemon = new Pokemon();
+                    $pokemon->setTeam($team);
+                    $pokemon->setNumber((int)$single_pokemon);
+                    // save pokemon
+                    $entityManager->persist($pokemon);
+                    $entityManager->flush();
+                }
             }
 
             // clear cache about this user
@@ -158,18 +156,20 @@ class TeamController extends AbstractController
                 }
             }
 
-            // add new ones
-            foreach ($pokemon as $single_pokemon) {
-                if($team->hasPokemon((int)$single_pokemon) == false) {
-                    $pokemon = new Pokemon();
-                    $pokemon->setTeam($team);
-                    $pokemon->setNumber((int)$single_pokemon);
-                    // save pokemon
-                    $entityManager->persist($pokemon);
-                    $entityManager->flush();
+
+            if($pokemon[0] != "") {
+                // add new ones
+                foreach ($pokemon as $single_pokemon) {
+                    if($team->hasPokemon((int)$single_pokemon) == false) {
+                        $pokemon = new Pokemon();
+                        $pokemon->setTeam($team);
+                        $pokemon->setNumber((int)$single_pokemon);
+                        // save pokemon
+                        $entityManager->persist($pokemon);
+                        $entityManager->flush();
+                    }
                 }
             }
-
 
             $entityManager->flush();
 
