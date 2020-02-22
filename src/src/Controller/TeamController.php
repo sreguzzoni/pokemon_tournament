@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @Route("/team")
@@ -20,22 +22,53 @@ class TeamController extends AbstractController
 {
 
     /*
+     * Cache object for teams
+     */
+    private $cache;
+
+    /*
      * Useful const
      */
     const FIRST_POKEMON = 1;
     const LAST_POKEMON = 807;
     const MAX_POKEMON = 6;
 
+    public function __construct()
+    {
+        $this->cache = new FilesystemAdapter();
+    }
+
     /**
      * @Route("/", name="team_index", methods={"GET"})
      */
     public function index(TeamRepository $teamRepository): Response
     {
-        $teams = $teamRepository->findByUser($this->getUser());
-        // pick pokemon info from API
-        foreach ($teams as $team) {
-            $team->getPokemon();
+
+        $userId = $this->getUser()->getId();
+
+        // get from cache team filtered by userId
+        $teamsIds = $this->cache->get('user-' . $userId, function(ItemInterface $item) use ($teamRepository, $userId) {
+            $ids = array();
+            foreach ($teamRepository->findByUser($this->getUser()->getId()) as $team) {
+                array_push($ids, $team->getId());
+            }
+            return $ids;
+        });
+
+
+        // init empty array for teams
+        $teams = array();
+
+        foreach ($teamsIds as $teamId) {
+            $team = $this->cache->get('team-' . $teamId, function(ItemInterface $item) use ($teamRepository, $teamId) {
+                $team_tmp = $teamRepository->find($teamId);
+                $team_tmp->getPokemon();
+                return $team_tmp;
+            });
+            array_push($teams, $team);
         }
+
+
         // return the list
         return $this->render('team/index.html.twig', [
             'teams' => $teams,
@@ -74,6 +107,9 @@ class TeamController extends AbstractController
                 $entityManager->persist($pokemon);
                 $entityManager->flush();
             }
+
+            // clear cache about this user
+            $this->cache->delete('user-' . $this->getUser()->getId());
 
             return $this->redirectToRoute('team_index');
         }
@@ -137,6 +173,9 @@ class TeamController extends AbstractController
 
             $entityManager->flush();
 
+            // clear cache about this team
+            $this->cache->delete('team-' . $team->getId());
+
             return $this->redirectToRoute('team_index');
         }
         $team->getPokemon();
@@ -155,6 +194,8 @@ class TeamController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($team);
             $entityManager->flush();
+            // clear cache about this user
+            $this->cache->delete('user-' . $this->getUser()->getId());
         }
 
         return $this->redirectToRoute('team_index');
