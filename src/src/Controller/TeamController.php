@@ -254,5 +254,4 @@ class TeamController extends AbstractController
         die(new JsonResponse(['message' => 'removePokemon: Cannot remove a Pokemon', 'code' => 1002], 500));
     }
 
-
 }

@@ -1,3 +1,18 @@
+index:
+  path: /
+  controller: App\Controller\TeamController::index
+
+login:
+  path: /login
+
+create_team:
+  path: /team/create
+  controller: App\Controller\TeamController::new
+
+list_team:
+  path: /team/list
+  controller: App\Controller\TeamController::index
+
 add_new_pokemon:
   path: /team/addPokemon
   controller: App\Controller\TeamController::addPokemon
@@ -5,6 +20,4 @@ add_new_pokemon:
 remove_pokemon:
   path: /team/removePokemon
   controller: App\Controller\TeamController::removePokemon
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+
