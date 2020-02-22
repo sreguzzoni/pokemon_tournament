@@ -7,28 +7,33 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create new Team</h1>
+    <div class="team-list content container">
+      <header class="content--header">
+        <h1>NEW TEAM</h1>
+        <h2>METTI INSIEME UN GRUPPO DI POKEMON!</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+      </header>
+      <div class="team-list--edit">
+      {{ include('team/_pokemon_list_element_local_tpl.html.twig') }}
 
-
-    {{ include('team/_pokemon_list_element_local_tpl.html.twig') }}
-
-    {{ include('team/_form.html.twig') }}
-
-    <a href="{{ path('team_index') }}">back to list</a>
-
-    <div class="team-list--list--item" id='team-0'>
-            <div class="team-list--list--item--header">
-                <span>POKEMON</span>
-            </div>
-            <div class="pokemon-list">
-                <div class='pokemon-list-empty'>
-                    This team is empty.
+          {{ form_start(form) }}
+              <div class="input-wrapper">
+                  {{ form_widget(form) }}
+              </div>
+              <div class="team-list--edit--pokemon" id='team-0'>
+                <div class="pokemon-list">
+                </div>
+                <div class="actions">
+                  {{ include('team/_pokemon_add_btn_local.html.twig') }}
+                  <button class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-            <div class="actions">
-                {{ include('team/_pokemon_add_btn_local.html.twig') }}
-            </div>
+        {{ form_end(form) }}
+        <div class="actions">
+            <a class="btn btn-primary" href="{{ path('team_index') }}">Back to list</a>
         </div>
+    </div>
+  </div>
 
 {% endblock %}
 

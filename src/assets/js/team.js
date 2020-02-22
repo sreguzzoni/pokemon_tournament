@@ -29,16 +29,16 @@ console.log("Adding");
     newPokemon.attr('pokemon-team', team);
     newPokemon.attr('pokemon-number', pokemon['number']);
     // set innert text
-    newPokemon.find('.name').text(pokemon['name']);
-    newPokemon.find('.exp').text(pokemon['exp']);
+    newPokemon.find('.name h5').text(pokemon['name']);
+    newPokemon.find('.exp p').text(pokemon['exp']);
     // set img
     newPokemon.find('.img-wrapper img').attr('src', pokemon['img']);
     newPokemon.find('.img-wrapper img').attr('alt', pokemon['name']);
     // set abilities
-    pokemon['abilities'].forEach(ability => $('<span></span>').text(ability['ability']['name']).appendTo(newPokemon.find('.abilities')));
+    pokemon['abilities'].forEach(ability => $('<span class="ability"></span>').text(ability['ability']['name']).appendTo(newPokemon.find('.abilities')));
     // set types
     let typeN = 1;
-    pokemon['types'].forEach(type => $('<span></span>').text(type['type']['name']).appendTo(newPokemon.find('.types')));
+    pokemon['types'].forEach(type => $('<span class="type"></span>').text(type['type']['name']).appendTo(newPokemon.find('.types')));
     // work on delete button
     newPokemonRemoveBtn.attr('data-pokemon', pokemon['id']);
     // remove tpl class

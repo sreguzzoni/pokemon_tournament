@@ -1,11 +1,5 @@
 .team-list{
   &--list {
-    &.no-results {
-      text-align: center;
-      p {
-        font-size: 3rem;
-      }
-    }
     &--item {
       position: relative;
       display: block;
@@ -23,7 +17,7 @@
           color: $color-black;
         }
         p {
-          margin-bottom: 1.5rem;    
+          margin-bottom: 1.5rem;
         }
       }
       .pokemon-list {
@@ -105,5 +99,12 @@
     @include media-breakpoint-up('md') {
       padding: $padding-desktop-md 0 $padding-desktop-lg;
     }
+  }
+}
+
+.no-results {
+  text-align: center;
+  p {
+    font-size: 3rem;
   }
 }

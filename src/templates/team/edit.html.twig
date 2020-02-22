@@ -15,7 +15,7 @@
     </header>
     <div class="team-list--edit">
         {{ include('team/_pokemon_list_element_local_tpl.html.twig') }}
-        
+
         {{ form_start(form) }}
             <div class="input-wrapper">
                 {{ form_widget(form) }}
@@ -36,7 +36,7 @@
                             This team is empty.
                         </div>
                     {% endif %}
-                        
+
                 </div>
                 <div class="actions">
                     {{ include('team/_pokemon_add_btn.html.twig') }}
@@ -45,7 +45,7 @@
             </div>
         {{ form_end(form) }}
         <div class="actions">
-            <a class="btn btn-primary" href="{{ path('team_index') }}">back to list</a>
+            <a class="btn btn-primary" href="{{ path('team_index') }}">Back to list</a>
         </div>
     </div>
   </div>

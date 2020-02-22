@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('build/app.css') }}" />
@@ -14,16 +14,15 @@
     <body>
       <header class="header-main">
         <div class="container">
-          <div class="logo">
+          <a href="" class="logo">
             <img src="https://www.pngkit.com/png/full/19-190666_pokeball-graphic-by-maratuna-on-deviantart-banner-free.png" alt="Logo">
             <h1>Team Builder</h1>
-
-            {% if app.user %}
-                <div class="logout">
-                    <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
-          </div>
+          </a>
+          {% if app.user %}
+              <div class="logout">
+                  <a href="{{ path('app_logout') }}">Logout</a>
+              </div>
+          {% endif %}
         </div>
       </header>
         {% block body %}{% endblock %}

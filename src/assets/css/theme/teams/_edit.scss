@@ -45,7 +45,7 @@
     	text-align: center;
     }
     @include media-breakpoint-down('sm') {
-    	padding: $padding-mobile-md 0 $padding-mobile-lg;
+    	padding: 0 0 $padding-mobile-lg;
     	&--pokemon {
 			.pokemon-list {
 				display: flex;
@@ -64,7 +64,7 @@
 		}
     }
     @include media-breakpoint-up('md') {
-      padding: $padding-desktop-md 0 $padding-desktop-lg;
+      padding: 0 0 $padding-desktop-lg;
     }
   }
 }

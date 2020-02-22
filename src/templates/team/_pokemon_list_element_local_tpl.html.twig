@@ -1,14 +1,26 @@
-<div class='pokemon-list--single tpl'>
-	<div class='name'></div>
-	<div class='exp'></div>
-	<div class="img-wrapper">
-        <img/>
-    </div>
-	<div class='abilities'>
+<div class='pokemon-list--single tpl' id='pokemon-' pokemon-team='{{ team.id }}' pokemon-number=''>
+	<div class="pokemon-list--single--info">
+		<div>
+			<div class='img-wrapper'>
+			<img/>
+		  </div>
+		</div>
+		<div>
+			<div class='name'>
+				<h5></h5>
+			</div>
+			<div class='exp'>
+				EXP: <p></p>
+			</div>
+			<div class='abilities'>
+			</div>
+		    <div class='types'>
+		    </div>
+		</div>
 	</div>
-    <div class='types'>
-    </div>
-	<button class="pokemon-remove-btn" data-path='local'>
-		Remove
+	<div class="pokemon-list--single--actions">
+	<button class='pokemon-remove-btn btn btn-primary' data-path='local' data-pokemon=''>
+		x
 	</button>
+	</div>
 </div>

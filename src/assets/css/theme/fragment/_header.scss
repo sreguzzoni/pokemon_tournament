@@ -1,9 +1,15 @@
 header.header-main {
   background: $color-grey-dark;
   color: white;
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .logo {
     display: inline-flex;
     align-items: center;
+    text-decoration: none;
     img {
       margin-right: 1rem;
       opacity: .5;
@@ -13,6 +19,9 @@ header.header-main {
       color: $color-grey;
       margin: 0;
     }
+  }
+  .logout {
+    a { font-size: 10px; }
   }
   @include media-breakpoint-down('sm') {
     padding: 20px 0;

@@ -12,11 +12,15 @@
       <h1>Your Teams</h1>
       <h2>Crea e gestisci i tuoi Pokemon in fantasici team!</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-      <select id="type-select">
-            <option selected="selected" value="all">
-                All
-            </option>
-      </select>
+      {% if teams|length > 0 %}
+        <div class="input-wrapper input-wrapper--select">
+          <select id="type-select">
+                <option selected="selected" value="all">
+                    All
+                </option>
+          </select>
+        </div>
+      {% endif %}
     </header>
     <div class="team-list--list">
     {% for team in teams %}
@@ -31,7 +35,7 @@
                 <p>TOTAL EXP: <span>{{ tot_exp }}</span></p>
                 <span>POKEMON</span>
             </div>
-            <div class="pokemon-list">                
+            <div class="pokemon-list">
                 {% if team.pokemon|length == 0 %}
                     <div class='pokemon-list-empty'>
                         This team is empty.
