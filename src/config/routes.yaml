@@ -10,7 +10,7 @@ create_team:
   controller: App\Controller\TeamController::new
 
 list_team:
-  path: /team/list
+  path: /team
   controller: App\Controller\TeamController::index
 
 add_new_pokemon:

@@ -39,7 +39,7 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/", name="team_index", methods={"GET"})
+     * @Route("/list", name="team_index", methods={"GET"})
      */
     public function index(TeamRepository $teamRepository): Response
     {
@@ -76,7 +76,7 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="team_new", methods={"GET","POST"})
+     * @Route("/create", name="team_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {

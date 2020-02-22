@@ -17,6 +17,12 @@
           <div class="logo">
             <img src="https://www.pngkit.com/png/full/19-190666_pokeball-graphic-by-maratuna-on-deviantart-banner-free.png" alt="Logo">
             <h1>Team Builder</h1>
+
+            {% if app.user %}
+                <div class="logout">
+                    You are logged in as {{ app.user.email }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
           </div>
         </div>
       </header>
