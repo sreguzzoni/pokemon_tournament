@@ -198,6 +198,36 @@ const updateLocalPokemonInput = () => {
     $('#team_pokemon').val(pokemon_local_numbers);
 }
 
+const searchTypeBind = () => {
+    let select = $('#type-select');
+    let types_opts = new Array();
+    $('.team-list--list--item').each(function(){
+        let that = $(this);
+        that.find('.pokemon-list').children('.pokemon-list--single').each(function(){
+            $(this).find('.types').children('.type').each(function(){
+                that.addClass($(this).text());
+                if(types_opts.indexOf($(this).text()) == -1) {
+                    // if new type
+                    types_opts.push($(this).text());
+                    select.append($('<option>', {
+                        value: $(this).text(),
+                        text: $(this).text()
+                    }));
+                }
+            });
+        });
+    });
+    select.on('change', function(){
+        let filter = $(this).val();
+        if(filter != 'all') {
+            $('.team-list--list--item').hide();
+            $('.' + filter).show();
+        } else {
+            $('.team-list--list--item').show();
+        }
+    });
+}
+
 /**************** ENTRY POINT *******************/
 $(document).ready(function() {
     // bind buttons
@@ -206,4 +236,6 @@ $(document).ready(function() {
     // update local pokemon number for edit form
     countPokemonInTeam();
     updateLocalPokemonInput();
+    // bind search bar
+    searchTypeBind();
 });
