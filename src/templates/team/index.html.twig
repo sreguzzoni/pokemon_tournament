@@ -28,8 +28,7 @@
             <div class="team-list--list--item--header">
                 <span>TEAM NAME</span>
                 <h3>{{ team.name }}</h3>
-                <span>TOTAL EXP</span>
-                <h3>{{ tot_exp }}</h3>
+                <p>TOTAL EXP: <span>{{ tot_exp }}</span></p>
                 <span>POKEMON</span>
             </div>
             <div class="pokemon-list">                
@@ -43,12 +42,14 @@
                             <div class="img-wrapper">
                                 <img src="{{ single_pokemon.img }}" alt="{{ single_pokemon.name }}" />
                             </div>
+                            <div class="exp">
+                                <p>EXP : {{ single_pokemon.exp }}</p>
+                            </div>
                             <div class='types'>
                                 {% for type in single_pokemon.types %}
                                     <span class="type">{{ type }}</span>
                                 {% endfor %}
                             </div>
-                            EXP : {{ single_pokemon.exp }}
                         </div>
                     {% endfor %}
                 {% endif %}

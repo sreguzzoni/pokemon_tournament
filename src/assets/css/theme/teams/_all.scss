@@ -1,4 +1,5 @@
 @import "_list";
+@import "_edit";
 
 .content {
   &--header{
@@ -11,5 +12,76 @@
     @include media-breakpoint-up('md') {
       padding: $padding-desktop-lg 0 $padding-desktop-md;
     }
+  }
+}
+
+.pokemon-list--single {
+  text-align: center;
+  flex: 1;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  .img-wrapper{
+    background: $color-grey-light;
+    overflow: hidden;
+    border-radius: 1000px;
+    padding: 10%;
+    margin-bottom: 2rem;
+    img {
+      width: 100%;
+      position: relative;
+    }
+    @keyframes pokemon-animation {
+      0%   { top: 0px; }
+      25% { top: -4px; }
+      50% { top: 0px; }
+      75% { top: 4px; }
+      100% { top: 0px; }
+    }
+    &:hover,
+    &:focus {
+      img {
+        animation: pokemon-animation .25s infinite;
+      }
+    }
+  }
+  .exp {
+    margin-bottom: 1rem; 
+    p {
+      font-size: 1.4rem;
+    }
+  }
+  .types {
+    .type {
+      display: block;
+      padding: 1rem;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      background: $color-grey-dark;
+      color: $color-white;
+      border-radius: 7px;
+    }
+  }
+  .abilities {
+    .ability {
+      display: block;
+      padding: 1rem;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      background: $color-grey;
+      color: $color-white;
+    }
+  }
+  span {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-bottom: .2rem;
+  }
+  &:first-child {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
   }
 }

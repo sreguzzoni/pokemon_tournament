@@ -15,55 +15,20 @@
       transition: box-shadow .45s ease;
       &:nth-child(even){
         background: #eaeaea;
-      };
-      h3 {
-        margin-top: 1rem;
-        margin-bottom: 2rem;
-        color: $color-black;
+      }
+      &--header {
+        h3 {
+          margin-top: 1rem;
+          margin-bottom: 2rem;
+          color: $color-black;
+        }
+        p {
+          margin-bottom: 1.5rem;    
+        }
       }
       .pokemon-list {
         padding-top: 2rem;
         display: flex;
-        .pokemon-list--single {
-          flex: 1;
-          padding: 0 1rem;
-          box-sizing: border-box;
-          .img-wrapper{
-            background: $color-grey-light;
-            overflow: hidden;
-            border-radius: 1000px;
-            padding: 10%;
-            margin-bottom: 1rem;
-            img {
-              width: 100%;
-              position: relative;
-            }
-            @keyframes pokemon-animation {
-              0%   { top: 0px; }
-              25% { top: -4px; }
-              50% { top: 0px; }
-              75% { top: 4px; }
-              100% { top: 0px; }
-            }
-            &:hover,
-            &:focus {
-              img {
-                animation: pokemon-animation .25s infinite;
-              }
-            }
-          }
-          span {
-            display: inline-block;
-            margin-right: 1rem;
-            margin-bottom: .2rem;
-          }
-          &:first-child {
-            padding-left: 0;
-          }
-          &:last-child {
-            padding-right: 0;
-          }
-        }
       }
       .actions {
         position: absolute;
@@ -93,18 +58,19 @@
           right: $padding-desktop-md / 2;
         }
       }
-      @include media-breakpoint-down('lg') {
+      @include media-breakpoint-down('xl') {
         .pokemon-list .pokemon-list--single {
           width: 15%;
         }
       }
-      @include media-breakpoint-down('md') {
+      @include media-breakpoint-down('lg') {
         .pokemon-list{
           display: block;
           text-align: center;
           .pokemon-list--single {
             display: inline-block;
             width: 30%;
+            vertical-align: top;
             margin-bottom: 2rem;
           }
         }

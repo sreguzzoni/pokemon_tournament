@@ -1,13 +1,15 @@
 require('../css/team.scss');
 
+// API for pokeapi.co
 const Pokedex = require('pokeapi-js-wrapper');
-
 const POKEDEX = new Pokedex.Pokedex();
 
+// useful const
 const FIRST_POKEMON = 1;
 const LAST_POKEMON = 807;
 const MAX_POKEMON = 6;
 
+// var used to count pokemon in team
 var local_pokemon = 0;
 
 /**
