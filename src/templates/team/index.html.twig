@@ -20,10 +20,16 @@
     </header>
     <div class="team-list--list">
     {% for team in teams %}
+        {% set tot_exp=0 %}
+        {% for single_pokemon in team.pokemon %}
+            {% set tot_exp = tot_exp + single_pokemon.exp %}
+        {% endfor %}
         <a href="{{ path('team_edit', {'id': team.id}) }}" class="team-list--list--item" id='team-{{ team.id }}'>
             <div class="team-list--list--item--header">
                 <span>TEAM NAME</span>
                 <h3>{{ team.name }}</h3>
+                <span>TOTAL EXP</span>
+                <h3>{{ tot_exp }}</h3>
                 <span>POKEMON</span>
             </div>
             <div class="pokemon-list">                
