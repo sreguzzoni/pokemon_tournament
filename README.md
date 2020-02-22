@@ -18,7 +18,7 @@ The repository is really fast and easy to setup. Follow the instructions:
 
 ### Clone the repository
 
-To clone the repository and move your working directory inside it , run the commands:
+To clone the repository and move your working directory inside it, run the commands:
 
 ```bash
 git clone https://github.com/sreguzzoni/pokemon_tournament
