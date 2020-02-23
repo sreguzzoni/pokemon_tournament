@@ -121,6 +121,7 @@ form{
     font-size: 1.6rem;
     font-family: $font-family-primary;
     text-align: center;
+    text-transform: uppercase;
     &:hover,
     &:focus {
       border-color: $color-black;
