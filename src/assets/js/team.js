@@ -96,6 +96,10 @@ const removePokemonInList = (pokemon) => {
     }
 }
 
+
+/**
+* Count local pokemon saved in the document and updated the related global counter.
+*/
 const countPokemonInTeam = () => {
     local_pokemon = $('.pokemon-list--single:not(.tpl)').length;
 }
@@ -128,7 +132,7 @@ const removePokemon = (path, pokemon) => {
 }
 
 /**
-* Binds all the .pokemon-add-btn buttons with AJAX related service
+* Binds all the .pokemon-add-btn buttons
 */
 const addPokemonBind = () => {
 	let buttons = $('.pokemon-add-btn');
@@ -151,7 +155,7 @@ const addPokemonBind = () => {
 }
 
 /**
-* Binds all the .pokemon-remove-btn buttons with AJAX related service
+* Binds all the .pokemon-remove-btn buttons
 */
 const removePokemonBind = () => {
     let buttons = $('.pokemon-remove-btn');
@@ -192,24 +196,35 @@ const getPokemon = (pokemonNumber, team = 0) => {
     });
 }
 
+/*
+* Update the hidden input pokemon number.
+*/
 const updateLocalPokemonInput = () => {
     let pokemon_local_numbers = new Array();
     $('.pokemon-list--single:not(.tpl)').each(function() {
+        // for each pokemon, push its number
         pokemon_local_numbers.push($(this).attr('pokemon-number'));
     });
     $('#team_pokemon').val(pokemon_local_numbers);
 }
 
+/*
+* Insert the select type options and bind it to make it works.
+*/
 const searchTypeBind = () => {
     let select = $('#type-select');
     let types_opts = new Array();
+    // let's find all the types
     $('.team-list--list--item').each(function(){
+        // for each team
         let that = $(this);
         that.find('.pokemon-list').children('.pokemon-list--single').each(function(){
+            // for each pokemon in team
             $(this).find('.types').children('.type').each(function(){
+                // for each type
                 that.addClass($(this).text());
                 if(types_opts.indexOf($(this).text()) == -1) {
-                    // if new type
+                    // if new type, push it in the array
                     types_opts.push($(this).text());
                     select.append($('<option>', {
                         value: $(this).text(),
@@ -219,6 +234,7 @@ const searchTypeBind = () => {
             });
         });
     });
+    // let's bind the select
     select.on('change', function(){
         let filter = $(this).val();
         if(filter != 'all') {
@@ -238,6 +254,6 @@ $(document).ready(function() {
     // update local pokemon number for edit form
     countPokemonInTeam();
     updateLocalPokemonInput();
-    // bind search bar
+    // bind select
     searchTypeBind();
 });

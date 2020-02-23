@@ -82,21 +82,23 @@ class TeamController extends AbstractController
     {
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
-        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // get the pokemon numbers
             $pokemon = $form['pokemon']->getData();
             $pokemon = explode(',', $pokemon);        
-            
+            // save team to db
             $team->setUser($this->getUser());
             $team->setDatetime(new \Datetime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($team);
             $entityManager->flush();
-
+            // let's save pokemon
             if($pokemon[0] != "") {
+                // if there's at least one pokemon
                 foreach ($pokemon as $single_pokemon) {
+                    // save all the pokemons
                     $pokemon = new Pokemon();
                     $pokemon->setTeam($team);
                     $pokemon->setNumber((int)$single_pokemon);
@@ -105,27 +107,13 @@ class TeamController extends AbstractController
                     $entityManager->flush();
                 }
             }
-
-            // clear cache about this user
+            // clear cache about this user, updating team ids for this user
             $this->cache->delete('user-' . $this->getUser()->getId());
-
             return $this->redirectToRoute('team_index');
         }
-
         return $this->render('team/new.html.twig', [
             'team' => $team,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="team_show", methods={"GET"})
-     */
-    public function show(Team $team): Response
-    {
-        return $this->render('team/show.html.twig', [
-            'team' => $team,
-            'pokemon' => $team->getPokemon()
         ]);
     }
 
@@ -138,11 +126,11 @@ class TeamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // get the pokemon numbers
             $pokemon = $form['pokemon']->getData();
             $pokemon = explode(',', $pokemon);        
 
             $entityManager = $this->getDoctrine()->getManager();
-            
             // delete old pokemon
             foreach ($team->getPokemon() as $pokemon_in_team) {
                 $pokemonNumber = $pokemon_in_team->getNumber();
@@ -155,12 +143,12 @@ class TeamController extends AbstractController
                     $entityManager->flush();
                 }
             }
-
-
+            // let's save the new pokemon
             if($pokemon[0] != "") {
-                // add new ones
+                // if there's at least one pokemon, add them
                 foreach ($pokemon as $single_pokemon) {
                     if($team->hasPokemon((int)$single_pokemon) == false) {
+                        // if there isn't this pokemon in the team
                         $pokemon = new Pokemon();
                         $pokemon->setTeam($team);
                         $pokemon->setNumber((int)$single_pokemon);
@@ -170,14 +158,12 @@ class TeamController extends AbstractController
                     }
                 }
             }
-
             $entityManager->flush();
-
-            // clear cache about this team
+            // clear cache about this team, removing all the pokemon ids related to this team
             $this->cache->delete('team-' . $team->getId());
-
             return $this->redirectToRoute('team_index');
         }
+        // get info about the pokemon from API
         $team->getPokemon();
         return $this->render('team/edit.html.twig', [
             'team' => $team,
@@ -197,7 +183,6 @@ class TeamController extends AbstractController
             // clear cache about this user
             $this->cache->delete('user-' . $this->getUser()->getId());
         }
-
         return $this->redirectToRoute('team_index');
     }
 
@@ -246,7 +231,6 @@ class TeamController extends AbstractController
             // delete Pokemon
             $entityManager->remove($pokemon);
             $entityManager->flush();
-
             // return the Pokemon id as JSON object
             return new JsonResponse(['id' => $pokemonId]);
         }

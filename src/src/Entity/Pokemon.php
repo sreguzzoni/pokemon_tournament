@@ -29,7 +29,7 @@ class Pokemon
     private $number;
 
     /**
-     * Attributes picked from API and cached into the single objects.
+     * Attributes picked from API and cached into the single object.
      */
     private $pokemon_obj;
     private $pokemon_name;
@@ -57,6 +57,31 @@ class Pokemon
     public function getNumber(): ?int
     {
         return $this->number;
+    }
+
+    public function getName(): ?String
+    {
+        return $this->pokemon_name;
+    }
+
+    public function getExp(): ?int
+    {
+        return $this->pokemon_exp;
+    }
+
+    public function getImg(): ?String
+    {
+        return $this->pokemon_img;
+    }
+
+    public function getAbilities()
+    {
+        return $this->pokemon_abilities;
+    }
+
+    public function getTypes()
+    {
+        return $this->pokemon_types;   
     }
 
     public function setNumber(int $number): self
@@ -87,31 +112,6 @@ class Pokemon
             array_push($this->pokemon_types, $type_obj->type->name);
         }
 
-    }
-
-    public function getName(): ?String
-    {
-        return $this->pokemon_name;
-    }
-
-    public function getExp(): ?int
-    {
-        return $this->pokemon_exp;
-    }
-
-    public function getImg(): ?String
-    {
-        return $this->pokemon_img;
-    }
-
-    public function getAbilities()
-    {
-        return $this->pokemon_abilities;
-    }
-
-    public function getTypes()
-    {
-        return $this->pokemon_types;   
     }
 
     public function __toString() {
